@@ -4,17 +4,25 @@ import { FcGoogle } from "react-icons/fc";
 import "./LoginPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { onLogin } from "../../Redux/Features/Users";
 import { Toaster } from "react-hot-toast";
+import { Spinner } from 'flowbite-react';
 
 export default function LoginPage() {
     const email = useSelector((state) => state.users.email);
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const inputEmail = useRef();
     const inputPassword = useRef();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const handleLogin = () => {
+        setIsLoading(true)
+        dispatch(onLogin(inputEmail.current.value, inputPassword.current.value))
+    }
 
     if (email) {
         return navigate("/");
@@ -67,24 +75,24 @@ export default function LoginPage() {
                                             />
                                         </div>
                                         <div className="form-group mt-2">
-                                            <button
-                                                type="submit"
-                                                className={`rounded-lg py-3 px-4 w-full hover:scale-105 active:scale-100`}
-                                                onClick={() =>
-                                                    dispatch(
-                                                        onLogin(
-                                                            inputEmail.current
-                                                                .value,
-                                                            inputPassword
-                                                                .current.value
-                                                        )
+                                            {
+                                                isLoading ?
+                                                    (
+                                                        <Spinner color="pink" />
                                                     )
-                                                }
-                                            >
-                                                <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
-                                                    Log in
-                                                </span>
-                                            </button>
+                                                    :
+                                                    (
+                                                        <button
+                                                            type="submit"
+                                                            className={`rounded-lg py-3 px-4 w-full hover:scale-105 active:scale-100`}
+                                                            onClick={handleLogin}
+                                                        >
+                                                            <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
+                                                                Log in
+                                                            </span>
+                                                        </button>
+                                                    )
+                                            }
                                         </div>
                                     </div>
                                 </div>

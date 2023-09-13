@@ -3,13 +3,16 @@ import ConcertImage from "./../../Assets/Images/concert_login.jpg";
 import "./SignupPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { setEmail, setFullname } from "../../Redux/Features/Users";
+import { Spinner } from 'flowbite-react';
 
 export default function SignupPage() {
     const email = useSelector((state) => state.users.email);
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const inputFullname = useRef();
     const inputEmail = useRef();
@@ -18,6 +21,7 @@ export default function SignupPage() {
     const dispatch = useDispatch();
 
     const onSignUp = async () => {
+        setIsLoading(true)
         try {
             const fullname = inputFullname.current.value;
             const email = inputEmail.current.value;
@@ -112,17 +116,26 @@ export default function SignupPage() {
                                             />
                                         </div>
                                         <div className="form-group mt-2">
-                                            <button
-                                                type="submit"
-                                                className={`rounded-lg py-3 px-4 w-full hover:scale-105 active:scale-100`}
-                                                onClick={() => {
-                                                    onSignUp();
-                                                }}
-                                            >
-                                                <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
-                                                    Sign up
-                                                </span>
-                                            </button>
+                                            {
+                                                isLoading ?
+                                                    (
+                                                        <Spinner color="pink" />
+
+                                                    ) :
+                                                    (
+                                                        <button
+                                                            type="submit"
+                                                            className={`rounded-lg py-3 px-4 w-full hover:scale-105 active:scale-100`}
+                                                            onClick={() => {
+                                                                onSignUp();
+                                                            }}
+                                                        >
+                                                            <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
+                                                                Sign up
+                                                            </span>
+                                                        </button>
+                                                    )
+                                            }
                                         </div>
                                     </div>
                                 </div>

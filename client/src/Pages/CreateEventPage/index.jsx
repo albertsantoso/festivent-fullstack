@@ -98,7 +98,6 @@ export default function CreateEvent() {
 
             const res = await axios.post("http://localhost:5000/events", fd);
 
-            console.log("res", res);
             toast.success("Event created!");
 
             setTimeout(() => {
@@ -134,10 +133,6 @@ export default function CreateEvent() {
         getEventCategories();
         tokenToId();
     }, []);
-
-    useEffect(() => {
-        console.log(image);
-    }, [image])
 
     return (
         <>
@@ -197,7 +192,7 @@ export default function CreateEvent() {
                                                 onChange={onSelectImage}
                                                 ref={inputImage}
                                                 placeholder="Please put in your image url."
-                                                className="border-neutral-300 p-2 md:p-4 w-full border-2 font-bold text-base md:text-lg rounded-lg placeholder:font-medium"
+                                                className="border-neutral-300 w-full border-2 font-medium text-neutral-500 text-base md:text-lg rounded-lg"
                                             />
                                         </div>
                                         <div className="form-group flex flex-col items-start w-full mb-4">
