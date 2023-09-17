@@ -12,15 +12,14 @@ import { Spinner } from 'flowbite-react';
 export default function LoginPage() {
     const email = useSelector((state) => state.users.email);
 
-    const [isLoading, setIsLoading] = useState(false)
-
     const inputEmail = useRef();
     const inputPassword = useRef();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [showPassword, setShowPassword] = useState(false)
+
     const handleLogin = () => {
-        setIsLoading(true)
         dispatch(onLogin(inputEmail.current.value, inputPassword.current.value))
     }
 
@@ -66,7 +65,7 @@ export default function LoginPage() {
                                         </div>
                                         <div className="form-group">
                                             <input
-                                                type="password"
+                                                type={showPassword ? "text" : "password"}
                                                 name="password"
                                                 id="password"
                                                 placeholder="Password"
@@ -74,25 +73,25 @@ export default function LoginPage() {
                                                 className="border-2 w-full py-3 px-4 rounded-lg font-semibold outline-none "
                                             />
                                         </div>
+                                        <div className="form-group flex items-center gap-2">
+                                            <input
+                                                type="checkbox"
+                                                id="show"
+                                                className="w-[20px] h-[20px] rounded-md border-2"
+                                                onChange={() => setShowPassword(!showPassword)}
+                                            />
+                                            <label htmlFor="show">Show password</label>
+                                        </div>
                                         <div className="form-group mt-2">
-                                            {
-                                                isLoading ?
-                                                    (
-                                                        <Spinner color="pink" />
-                                                    )
-                                                    :
-                                                    (
-                                                        <button
-                                                            type="submit"
-                                                            className={`rounded-lg py-3 px-4 w-full hover:scale-105 active:scale-100`}
-                                                            onClick={handleLogin}
-                                                        >
-                                                            <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
-                                                                Log in
-                                                            </span>
-                                                        </button>
-                                                    )
-                                            }
+                                            <button
+                                                type="submit"
+                                                className={`rounded-lg py-3 px-4 w-full hover:scale-105 active:scale-100`}
+                                                onClick={handleLogin}
+                                            >
+                                                <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
+                                                    Log in
+                                                </span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

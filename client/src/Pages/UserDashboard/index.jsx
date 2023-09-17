@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EventCard from "../../Components/EventCard";
 import PrimaryButton from "../../Components/PrimaryButton";
 
@@ -12,9 +12,10 @@ export default function UserDashboard() {
 
     const loggedinUserId = localStorage.getItem("idLogin");
 
+    const navigate = useNavigate()
+
     const tokenToId = async () => {
         try {
-
             const { data } = await axios.get(`http://localhost:5000/users/tokentoid/${loggedinUserId}`)
 
             setTokenToUserId(data.data)
@@ -33,7 +34,6 @@ export default function UserDashboard() {
     const getCreatedEvent = async () => {
         const { data } = await axios.get(`http://localhost:5000/events?userId=${tokenToUserId}`);
 
-        console.log(data);
         setCreatedEvents(data);
     };
 
@@ -80,6 +80,7 @@ export default function UserDashboard() {
     useEffect(() => {
         tokenToId()
         getDataUser();
+        console.log(loggedinUserId);
     }, []);
 
     useEffect(() => {
@@ -87,16 +88,16 @@ export default function UserDashboard() {
         getCreatedEvent();
     }, [tokenToUserId])
 
-    useEffect(() => {
-        console.log(dataUser);
-    }, [dataUser])
+    if (!tokenToUserId) {
+        navigate("/")
+    }
 
     return (
         <>
             <div className="UserDashboard">
                 <div className="user-dashboard-container text-left px-6 py-[92px] md:py-[140px] md:px-[30px] md:mx-auto md:max-w-[1300px]">
                     <section className="dashboard-greet-points mb-6">
-                        <h1 className="text-4xl md:text-6xl font-bold ff-space-g mb-2">Hi there, <br /> {dataUser.fullname} </h1>
+                        <h1 className="text-4xl md:text-6xl font-bold ff-space-g mb-2">Hi there, {dataUser.fullname}</h1>
                         <span className="font-medium text-lg">Your points: <strong>{dataUser.ref_points}</strong></span>
                         <div className={`font-medium text-lg ${dataUser.status === "Unverified" ? "text-red-500" : "text-green-500"}`}><strong>{dataUser.status}</strong></div>
                     </section>

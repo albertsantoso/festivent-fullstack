@@ -1,5 +1,6 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -72,6 +73,8 @@ export const onLogout = () => async (dispatch) => {
 
         dispatch(setEmail(res));
         dispatch(setFullname(res));
+
+        window.location.reload(false);
     } catch (error) {
         console.log(error);
     }

@@ -14,6 +14,7 @@ const upload = async (req, res, next) => {
 
             next()
         } catch (error) {
+            console.log("🚀 ~ file: upload.js:17 ~ result ~ error:", error)
             deleteFiles(error.files)
             next(error)
         }

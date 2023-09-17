@@ -13,6 +13,7 @@ export default function SignupPage() {
     const email = useSelector((state) => state.users.email);
 
     const [isLoading, setIsLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     const inputFullname = useRef();
     const inputEmail = useRef();
@@ -21,7 +22,6 @@ export default function SignupPage() {
     const dispatch = useDispatch();
 
     const onSignUp = async () => {
-        setIsLoading(true)
         try {
             const fullname = inputFullname.current.value;
             const email = inputEmail.current.value;
@@ -39,6 +39,7 @@ export default function SignupPage() {
                 return toast.error("Provide something!")
             }
 
+            setIsLoading(true)
             await axios.post('http://localhost:5000/users/signup', dataToSend)
             toast.success("Successfully registered!");
 
@@ -107,13 +108,22 @@ export default function SignupPage() {
                                         </div>
                                         <div className="form-group">
                                             <input
-                                                type="password"
+                                                type={showPassword ? "text" : "password"}
                                                 name="password"
                                                 id="password"
                                                 placeholder="Password"
                                                 ref={inputPassword}
                                                 className="w-full py-3 px-4 rounded-lg font-semibold outline-none "
                                             />
+                                        </div>
+                                        <div className="form-group flex items-center gap-2">
+                                            <input
+                                                type="checkbox"
+                                                id="show"
+                                                className="w-[20px] h-[20px] rounded-md border-2"
+                                                onChange={() => setShowPassword(!showPassword)}
+                                            />
+                                            <label htmlFor="show">Show password</label>
                                         </div>
                                         <div className="form-group mt-2">
                                             {

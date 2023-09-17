@@ -20,7 +20,6 @@ app.use('/events', eventsRouter)
 app.use('/tickets', ticketsRouter)
 app.use('/refcodes', refCodesRouter)
 
-
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500;
     const statusMessage = err.message || "Error!"

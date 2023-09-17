@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"
 
 const VerificationCodePage = () => {
-    const [verified, setVerified] = useState(true)
+    const [verified, setVerified] = useState(false)
 
     const { token } = useParams()
 
@@ -30,7 +30,7 @@ const VerificationCodePage = () => {
                     }, 1500);
                 }
             } else {
-                console.log("lagi");
+                return toast.error("Please fill the code!")
             }
         } catch (error) {
             console.log(error);

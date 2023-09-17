@@ -96,7 +96,11 @@ export default function CreateEvent() {
             fd.append('data', JSON.stringify(eventDetails));
             fd.append('images', image)
 
+            console.log("BEFORE");
+
             const res = await axios.post("http://localhost:5000/events", fd);
+
+            console.log("🚀 ~ file: index.jsx:100 ~ onCreate ~ res:", res)
 
             toast.success("Event created!");
 
@@ -104,7 +108,8 @@ export default function CreateEvent() {
                 navigate(`/event/${res.data.data.id}`);
             }, 1000);
         } catch (error) {
-            console.log(error);
+            // console.log(error);
+            alert(error.response?.data.message)
         }
     };
 
