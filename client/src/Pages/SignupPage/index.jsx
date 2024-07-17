@@ -140,9 +140,16 @@ export default function SignupPage() {
                                                                 onSignUp();
                                                             }}
                                                         >
-                                                            <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
-                                                                Sign up
-                                                            </span>
+                                                            {
+                                                                isLoading ? (
+                                                                    <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
+                                                                        Loading...</span>
+                                                                ) : (
+                                                                    <span className="font-bold text-lg text-white [text-shadow:_0_0_4px_rgb(0_0_0_/_70%)]">
+                                                                        Sign up
+                                                                    </span>
+                                                                )
+                                                            }
                                                         </button>
                                                     )
                                             }

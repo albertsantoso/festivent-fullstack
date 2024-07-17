@@ -1,164 +1,164 @@
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import EventCard from "../../Components/EventCard";
-import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import axios from "axios"
+import { useEffect, useRef, useState } from "react"
+import EventCard from "../../Components/EventCard"
+import { Link } from "react-router-dom"
+import { FaSearch } from "react-icons/fa"
 
 export default function AllEventsPageFiltering() {
-    const [events, setEvents] = useState([]);
-    const [categories, setCategories] = useState(null);
-    const [cities, setCities] = useState(null);
-    const [filters, setFilters] = useState([0, 0, ""]);
-    const [filtersChanged, setFiltersChanged] = useState(false);
-    const [filteredData, setFilteredData] = useState([]);
-    const inputFilter1 = useRef();
-    const inputFilter2 = useRef();
-    const inputFilter3 = useRef();
+    const [events, setEvents] = useState([])
+    const [categories, setCategories] = useState(null)
+    const [cities, setCities] = useState(null)
+    const [filters, setFilters] = useState([0, 0, ""])
+    const [filtersChanged, setFiltersChanged] = useState(false)
+    const [filteredData, setFilteredData] = useState([])
+    const inputFilter1 = useRef()
+    const inputFilter2 = useRef()
+    const inputFilter3 = useRef()
 
     const onFetchEvents = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/events`);
-            setEvents(data);
+            const { data } = await axios.get(`http://localhost:5000/events`)
+            setEvents(data)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    };
+    }
 
     const getEventCategories = async () => {
         try {
-            const { data } = await axios.get("http://localhost:5000/events/categories");
-            setCategories(data);
+            const { data } = await axios.get("http://localhost:5000/events/categories")
+            setCategories(data)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    };
+    }
 
     const getCities = async () => {
         try {
-            const { data } = await axios.get("http://localhost:5000/events/cities");
-            setCities(data);
+            const { data } = await axios.get("http://localhost:5000/events/cities")
+            setCities(data)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-    };
+    }
 
     const onFilterCategories = (id) => {
-        const temp = [...filters];
-        temp.splice(0, 1, Number(id));
-        setFilters(temp);
-        setFiltersChanged(true);
-    };
+        const temp = [...filters]
+        temp.splice(0, 1, Number(id))
+        setFilters(temp)
+        setFiltersChanged(true)
+    }
 
     const onFilterCities = (id) => {
-        const temp = [...filters];
-        temp.splice(1, 1, Number(id));
-        setFilters(temp);
-        setFiltersChanged(true);
-    };
+        const temp = [...filters]
+        temp.splice(1, 1, Number(id))
+        setFilters(temp)
+        setFiltersChanged(true)
+    }
 
     const onSearch = (text) => {
-        const temp = [...filters];
-        temp.splice(2, 1, String(text));
-        setFilters(temp);
-        setFiltersChanged(true);
-    };
+        const temp = [...filters]
+        temp.splice(2, 1, String(text))
+        setFilters(temp)
+        setFiltersChanged(true)
+    }
 
     const onClear = () => {
-        window.location.reload(false);
-    };
+        window.location.reload(false)
+    }
 
     useEffect(() => {
-        onFetchEvents();
-        getEventCategories();
-        getCities();
-    }, []);
+        onFetchEvents()
+        getEventCategories()
+        getCities()
+    }, [])
 
     useEffect(() => {
         if (filters[0]) {
-            const dataFull = [...events];
+            const dataFull = [...events]
             const temp1 = dataFull.filter((v) => {
-                return v.categoryId === filters[0];
-            });
+                return v.categoryId === filters[0]
+            })
             if (filters[1]) {
                 if (filters[2]) {
                     const temp2 = temp1.filter((v) => {
-                        return v.cityId === filters[1];
-                    });
+                        return v.cityId === filters[1]
+                    })
                     const temp3 = temp2.filter((v) => {
-                        return v.title.toLowerCase().includes(filters[2].toLowerCase());
-                    });
-                    return setFilteredData(temp3);
+                        return v.title.toLowerCase().includes(filters[2].toLowerCase())
+                    })
+                    return setFilteredData(temp3)
                 }
                 const temp2 = temp1.filter((v) => {
-                    return v.cityId === filters[1];
-                });
-                return setFilteredData(temp2);
+                    return v.cityId === filters[1]
+                })
+                return setFilteredData(temp2)
             }
             if (filters[2]) {
                 const temp2 = temp1.filter((v) => {
-                    return v.title.toLowerCase().includes(filters[2].toLowerCase());
-                });
-                return setFilteredData(temp2);
+                    return v.title.toLowerCase().includes(filters[2].toLowerCase())
+                })
+                return setFilteredData(temp2)
             }
-            return setFilteredData(temp1);
+            return setFilteredData(temp1)
         }
         if (filters[1]) {
-            const dataFull = [...events];
+            const dataFull = [...events]
             const temp1 = dataFull.filter((v) => {
-                return v.cityId === filters[1];
-            });
+                return v.cityId === filters[1]
+            })
             if (filters[0]) {
                 if (filters[2]) {
                     const temp2 = temp1.filter((v) => {
-                        return v.categoryId === filters[0];
-                    });
+                        return v.categoryId === filters[0]
+                    })
                     const temp3 = temp2.filter((v) => {
-                        return v.title.toLowerCase().includes(filters[2].toLowerCase());
-                    });
-                    return setFilteredData(temp3);
+                        return v.title.toLowerCase().includes(filters[2].toLowerCase())
+                    })
+                    return setFilteredData(temp3)
                 }
                 const temp2 = temp1.filter((v) => {
-                    return v.categoryId === filters[0];
-                });
-                return setFilteredData(temp2);
+                    return v.categoryId === filters[0]
+                })
+                return setFilteredData(temp2)
             }
             if (filters[2]) {
                 const temp2 = temp1.filter((v) => {
-                    return v.title.toLowerCase().includes(filters[2].toLowerCase());
-                });
-                return setFilteredData(temp2);
+                    return v.title.toLowerCase().includes(filters[2].toLowerCase())
+                })
+                return setFilteredData(temp2)
             }
-            return setFilteredData(temp1);
+            return setFilteredData(temp1)
         }
         if (filters[2]) {
-            const dataFull = [...events];
+            const dataFull = [...events]
             const temp1 = dataFull.filter((v) => {
-                return v.title.toLowerCase().includes(filters[2].toLowerCase());
-            });
+                return v.title.toLowerCase().includes(filters[2].toLowerCase())
+            })
             if (filters[0]) {
                 if (filters[1]) {
                     const temp2 = temp1.filter((v) => {
-                        return v.categoryId === filters[0];
-                    });
+                        return v.categoryId === filters[0]
+                    })
                     const temp3 = temp2.filter((v) => {
-                        return v.cityId === filters[1];
-                    });
-                    return setFilteredData(temp3);
+                        return v.cityId === filters[1]
+                    })
+                    return setFilteredData(temp3)
                 }
                 const temp2 = temp1.filter((v) => {
-                    return v.categoryId === filters[0];
-                });
-                return setFilteredData(temp2);
+                    return v.categoryId === filters[0]
+                })
+                return setFilteredData(temp2)
             }
             if (filters[1]) {
                 const temp2 = temp1.filter((v) => {
-                    return v.cityId === filters[1];
-                });
-                return setFilteredData(temp2);
+                    return v.cityId === filters[1]
+                })
+                return setFilteredData(temp2)
             }
-            return setFilteredData(temp1);
+            return setFilteredData(temp1)
         }
-    }, [filters]);
+    }, [filters])
 
     return (
         <>
@@ -187,7 +187,7 @@ export default function AllEventsPageFiltering() {
                                                     {value.name}
                                                 </option>
                                             </>
-                                        );
+                                        )
                                     })}
                                 </select>
                             </div>
@@ -209,7 +209,7 @@ export default function AllEventsPageFiltering() {
                                                     {value.name}
                                                 </option>
                                             </>
-                                        );
+                                        )
                                     })}
                                 </select>
                             </div>
@@ -223,10 +223,16 @@ export default function AllEventsPageFiltering() {
                                 />
                             </div>
                             <div className="">
-                                <button onClick={() => onClear()} className="rounded-lg font-medium border-2 md:block hidden border-neutral-300 h-full w-[120px] hover:bg-neutral-50 active:bg-neutral-100">
+                                <button
+                                    onClick={() => onClear()}
+                                    className="rounded-lg font-medium border-2 md:block hidden border-neutral-300 h-full w-[120px] hover:bg-neutral-50 active:bg-neutral-100"
+                                >
                                     Clear Filter
                                 </button>
-                                <button onClick={() => onClear()} className="rounded-lg text-[40px] flex items-center justify-center font-medium md:hidden border-neutral-300 h-full w-full hover:text-[44px] active:text-[38px] duration-150">
+                                <button
+                                    onClick={() => onClear()}
+                                    className="rounded-lg text-[40px] flex items-center justify-center font-medium md:hidden border-neutral-300 h-full w-full hover:text-[44px] active:text-[38px] duration-150"
+                                >
                                     <ion-icon name="refresh-circle"></ion-icon>
                                 </button>
                             </div>
@@ -235,72 +241,76 @@ export default function AllEventsPageFiltering() {
                             <div className="feed-events-wrapper grid gap-6 md:grid-cols-4">
                                 {filteredData.length === 0 && !filtersChanged
                                     ? events?.map((event) => {
-                                        const date = new Date(event.dateTimeStart);
-                                        const dayMonthDate = date.toLocaleDateString(undefined, {
-                                            weekday: "short",
-                                            month: "long",
-                                            day: "numeric",
-                                        });
+                                          const date = new Date(event.dateTimeStart)
+                                          const dayMonthDate = date.toLocaleDateString(undefined, {
+                                              weekday: "short",
+                                              month: "long",
+                                              day: "numeric",
+                                          })
 
-                                        return (
-                                            <>
-                                                <Link to={`/event/${event.id}`}>
-                                                    <EventCard
-                                                        key={event.id}
-                                                        image={event.id > 20 ? `http://localhost:5000/${event.image.substring(7)}` : event.image}
-                                                        title={`${event.title}`}
-                                                        dateTime={dayMonthDate}
-                                                        venue={`${event.address}`}
-                                                        price={
-                                                            event.price === 0
-                                                                ? "Free"
-                                                                : `${event.price.toLocaleString("id-ID", {
-                                                                    style: "currency",
-                                                                    currency: "IDR",
-                                                                    minimumFractionDigits: 0,
-                                                                })}`
-                                                        }
-                                                    />
-                                                </Link>
-                                            </>
-                                        );
-                                    })
+                                          return (
+                                              <>
+                                                  <Link to={`/event/${event.id}`}>
+                                                      <EventCard
+                                                          key={event.id}
+                                                          image={
+                                                              event.id > 20
+                                                                  ? `http://localhost:5000/${event.image.substring(7)}`
+                                                                  : event.image
+                                                          }
+                                                          title={`${event.title}`}
+                                                          dateTime={dayMonthDate}
+                                                          venue={`${event.address}`}
+                                                          price={
+                                                              event.price === 0
+                                                                  ? "Free"
+                                                                  : `${event.price.toLocaleString("id-ID", {
+                                                                        style: "currency",
+                                                                        currency: "IDR",
+                                                                        minimumFractionDigits: 0,
+                                                                    })}`
+                                                          }
+                                                      />
+                                                  </Link>
+                                              </>
+                                          )
+                                      })
                                     : filteredData?.map((event) => {
-                                        const date = new Date(event.dateTimeStart);
-                                        const dayMonthDate = date.toLocaleDateString(undefined, {
-                                            weekday: "short",
-                                            month: "long",
-                                            day: "numeric",
-                                        });
+                                          const date = new Date(event.dateTimeStart)
+                                          const dayMonthDate = date.toLocaleDateString(undefined, {
+                                              weekday: "short",
+                                              month: "long",
+                                              day: "numeric",
+                                          })
 
-                                        return (
-                                            <>
-                                                <Link to={`/event/${event.id}`}>
-                                                    <EventCard
-                                                        key={event.id}
-                                                        image={event.image}
-                                                        title={`${event.title}`}
-                                                        dateTime={dayMonthDate}
-                                                        venue={`${event.address}`}
-                                                        price={
-                                                            event.price === 0
-                                                                ? "Free"
-                                                                : `${event.price.toLocaleString("id-ID", {
-                                                                    style: "currency",
-                                                                    currency: "IDR",
-                                                                    minimumFractionDigits: 0,
-                                                                })}`
-                                                        }
-                                                    />
-                                                </Link>
-                                            </>
-                                        );
-                                    })}
+                                          return (
+                                              <>
+                                                  <Link to={`/event/${event.id}`}>
+                                                      <EventCard
+                                                          key={event.id}
+                                                          image={event.image}
+                                                          title={`${event.title}`}
+                                                          dateTime={dayMonthDate}
+                                                          venue={`${event.address}`}
+                                                          price={
+                                                              event.price === 0
+                                                                  ? "Free"
+                                                                  : `${event.price.toLocaleString("id-ID", {
+                                                                        style: "currency",
+                                                                        currency: "IDR",
+                                                                        minimumFractionDigits: 0,
+                                                                    })}`
+                                                          }
+                                                      />
+                                                  </Link>
+                                              </>
+                                          )
+                                      })}
                             </div>
                         </section>
                     </div>
                 </div>
             </div>
         </>
-    );
+    )
 }

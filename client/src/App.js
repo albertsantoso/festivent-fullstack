@@ -1,34 +1,34 @@
-import "./App.css";
-import { Route, Routes, useLocation } from "react-router-dom";
-import Navbar from "./../src/Components/Navbar";
-import Footer from "./../src/Components/Footer";
-import Home from "./Pages/Home";
-import LoginPage from "./Pages/LoginPage";
-import SignupPage from "./Pages/SignupPage";
-import EventDetailPage from "./Pages/EventDetailPage";
-import CreateEvent from "./Pages/CreateEventPage";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { checkLogin } from "./Redux/Features/Users";
-import AllEventsPageFiltering from "./Pages/AllEventsPageFiltering";
-import UserDashboard from "./Pages/UserDashboard";
-import VerificationPage from "./Pages/AccountVerification/VerificationPage";
-import VerificationCodePage from "./Pages/AccountVerification/VerificationCodePage";
+import "./App.css"
+import { Route, Routes, useLocation } from "react-router-dom"
+import Navbar from "./../src/Components/Navbar"
+import Footer from "./../src/Components/Footer"
+import Home from "./Pages/Home"
+import LoginPage from "./Pages/LoginPage"
+import SignupPage from "./Pages/SignupPage"
+import EventDetailPage from "./Pages/EventDetailPage"
+import CreateEvent from "./Pages/CreateEventPage"
+import { useDispatch } from "react-redux"
+import { useEffect } from "react"
+import { checkLogin } from "./Redux/Features/Users"
+import AllEventsPageFiltering from "./Pages/AllEventsPageFiltering"
+import UserDashboard from "./Pages/UserDashboard"
+import VerificationPage from "./Pages/AccountVerification/VerificationPage"
+import VerificationCodePage from "./Pages/AccountVerification/VerificationCodePage"
 
 function App() {
-    const { pathname } = useLocation();
+    const { pathname } = useLocation()
 
     const excluded = ["/login", "/signup", "/verified", "/confirm"]
     const excluded1 = ["/verified", "/confirm"]
 
-    const isExcludedNavbar = excluded.some((path) => pathname.startsWith(path));
-    const isExcludedFooter = excluded1.some((path) => pathname.startsWith(path));
+    const isExcludedNavbar = excluded.some((path) => pathname.startsWith(path))
+    const isExcludedFooter = excluded1.some((path) => pathname.startsWith(path))
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(checkLogin());
-    }, [dispatch]);
+        dispatch(checkLogin())
+    }, [dispatch])
 
     return (
         <>
@@ -40,10 +40,7 @@ function App() {
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/event/:id" element={<EventDetailPage />} />
                     <Route path="/create" element={<CreateEvent />} />
-                    <Route
-                        path="/events"
-                        element={<AllEventsPageFiltering />}
-                    />
+                    <Route path="/events" element={<AllEventsPageFiltering />} />
                     <Route path="/dashboard" element={<UserDashboard />} />
                     <Route path="/verified/:token" element={<VerificationPage />} />
                     <Route path="/confirm/:token" element={<VerificationCodePage />} />
@@ -51,7 +48,7 @@ function App() {
                 {isExcludedFooter ? null : <Footer />}
             </div>
         </>
-    );
+    )
 }
 
-export default App;
+export default App
